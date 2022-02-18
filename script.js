@@ -34,8 +34,7 @@ function draw() {
     ctx.fillStyle = g;
     ctx.fillText(`Level: ${Math.floor(lvl)}`, 10, 300);
     if (Math.floor(Math.random() * 300) <= lvl) {
-        console.log("New Enemy");
-        let dim = [Math.floor(Math.random() * 2), Math.floor(Math.random * 500), 300, 100];
+        let dim = [(Math.floor(Math.random() * 2) - 1) * 600, Math.floor(Math.random() * (500 - 0 + 1)), 300, 100];
         enemies[enemies.length] = new Enemy(lvl, dim);
     }
     for(let i = 0; i < enemies.length; i++) {
@@ -54,9 +53,12 @@ window.onkeydown = function(event) {
     }
 }
 class Enemy {
-    constructor(speed, dim) {
-        this.speed = speed;
-        if(dim[0] > 300) {
+    speed = 0;
+    dim = [];
+    constructor(s, d) {
+        this.speed = s;
+        this.dim = d;
+        if(this.dim[0] > 300) {
             this.direction = -1;
         }
         else {
@@ -64,9 +66,10 @@ class Enemy {
         }
     }
     move() {
-        dim[0] += this.speed * this.direction;
+        this.dim[0] += this.speed * this.direction;
+        console.log(this.dim);
         ctx.beginPath();
-        ctx.rect()
+        ctx.rect(this.dim[0], this.dim[1], this.dim[2], this.dim[3]);
         ctx.fillStyle = "red";
         ctx.fill();
         ctx.strokeStyle = "red";
